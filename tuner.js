@@ -54,7 +54,7 @@ Tuner.prototype.initGetUserMedia = function () {
   }
 };
 
-Tuner.prototype.startRecord = function () {
+Tuner.prototype.startRecord = function (callback) {
   const self = this;
   navigator.mediaDevices
     .getUserMedia({ audio: true })
@@ -63,10 +63,18 @@ Tuner.prototype.startRecord = function () {
       self.analyser.connect(self.scriptProcessor);
       self.scriptProcessor.connect(self.audioContext.destination);
       self.scriptProcessor.addEventListener("audioprocess", function (event) {
-        const frequency = self.pitchDetector.do(
-          event.inputBuffer.getChannelData(0)
-        );
+        const buffer = event.inputBuffer.getChannelData(0);
+        const frequency = self.pitchDetector.do(buffer);
+
         if (frequency && self.onNoteDetected) {
+          // Get confidence
+          let sum = 0;
+          for (let i = 0; i < buffer.length; i++) {
+            sum += buffer[i] * buffer[i];
+          }
+          const rms = Math.sqrt(sum / buffer.length);
+          const confidence = Math.min(1, rms * 10); // Normalize confidence to 0-1
+
           const note = self.getNote(frequency);
           self.onNoteDetected({
             name: self.noteStrings[note % 12],
@@ -74,16 +82,19 @@ Tuner.prototype.startRecord = function () {
             cents: self.getCents(frequency, note),
             octave: parseInt(note / 12) - 1,
             frequency: frequency,
+            confidence: confidence,
           });
         }
       });
+
+      callback();
     })
     .catch(function (error) {
       alert(error.name + ": " + error.message);
     });
 };
 
-Tuner.prototype.init = function () {
+Tuner.prototype.init = function (callback) {
   this.audioContext = new window.AudioContext();
   this.analyser = this.audioContext.createAnalyser();
   this.scriptProcessor = this.audioContext.createScriptProcessor(
@@ -101,7 +112,7 @@ Tuner.prototype.init = function () {
       1,
       self.audioContext.sampleRate
     );
-    self.startRecord();
+    self.startRecord(callback);
   });
 };
 
