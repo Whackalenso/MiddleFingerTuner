@@ -1,7 +1,7 @@
 const Tuner = function (a4) {
   this.middleA = a4 || 440;
   this.semitone = 69;
-  this.bufferSize = 4096;
+  this.bufferSize = 1024;
   this.noteStrings = [
     "C",
     "C♯",
@@ -68,12 +68,13 @@ Tuner.prototype.startRecord = function (callback) {
 
         if (frequency && self.onNoteDetected) {
           // Get confidence
-          let sum = 0;
-          for (let i = 0; i < buffer.length; i++) {
-            sum += buffer[i] * buffer[i];
-          }
-          const rms = Math.sqrt(sum / buffer.length);
-          const confidence = Math.min(1, rms * 10); // Normalize confidence to 0-1
+          // let sum = 0;
+          // for (let i = 0; i < buffer.length; i++) {
+          //   sum += buffer[i] * buffer[i];
+          // }
+          // const rms = Math.sqrt(sum / buffer.length);
+          // const confidence = Math.min(1, rms * 10); // Normalize confidence to 0-1
+          confidence = Math.abs(self.pitchDetector.getConfidence());
 
           const note = self.getNote(frequency);
           self.onNoteDetected({

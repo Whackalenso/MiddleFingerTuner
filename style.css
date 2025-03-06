@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
 body {
     width: 100%;
     height: 100vh;
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    overflow: clip;
+    
+    font-family: "DM Sans";
+    font-weight: 500;
 }
 
 .allow-access {
@@ -13,15 +19,28 @@ body {
     align-items: center;
     width: 100%;
     height: 100vh;
+    background-color: white;
+    z-index: 10;
 }
 
-.thumb {
+.hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* transform: scaleX(-100%); */
+    translate: -50% -50%;
+    transition: all .1s;
+    height: 80%;
+}
+
+.cents {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
+    
+    font-size: 30pt;
+    font-weight: 600;
 
-.hidden {
-    visibility: hidden;
+    transition: translate .1s;
 }
