@@ -2,15 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>The Finger Tuner</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body>
-    <div class="allow-access" onclick="start()">Tap the screen to allow microphone access</div>
-    <input type="range" min="-50" max="50" value="0" class="slider" oninput="handleSlider(this.value)" step="1">
-    <img class="hand" src="./frames/0000.png"></div>
+  <body onclick="onClick()">
+    <div class="allow-access">Tap the screen to allow microphone access</div>
+    <!-- <input type="range" min="-50" max="50" value="0" class="slider" oninput="handleSlider(this.value)" step="1"> -->
+    <img class="hand hidden" src="./frames/0000.png"></div>
     <div class="cents"></div>
     <script src="https://cdn.jsdelivr.net/npm/aubiojs@0.1.1/build/aubio.min.js"></script>
     <script src="tuner.js"></script>

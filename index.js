@@ -5,11 +5,12 @@ frequencyData = null;
 
 timeToDetect = 500;
 resetTimeout = null;
+lastNotes = [null, null];
 
 function updateHand(cents) {
   // Get Frame
   frame = 0;
-  if (cents) {
+  if (cents != null) {
     frame = Math.round(
       (Math.min(Math.abs(cents), inTuneRange) * (60 - 1)) / inTuneRange + 1
     );
@@ -22,7 +23,6 @@ function updateHand(cents) {
   rotation = (Math.max(0, frame - 1) / 59) * 90;
   rotation *= cents > 0 ? -1 : 1;
   hand.style.transform = `rotate(${Math.floor(rotation)}deg)`;
-  console.log(`rotate(${Math.floor(rotation)}deg)`);
 }
 
 function updateCentsIndicator(cents) {
@@ -37,13 +37,21 @@ function updateCentsIndicator(cents) {
   }
 }
 
-//tuner.onNoteDetected = (note) =>
-function handleSlider(cents) {
-  // if (note.confidence < 1) {
+tuner.onNoteDetected = (note) => {
+  // function handleSlider(cents) {
+  // console.log(confidence);
+  // if (note.confidence < 0.4) {
   //   return;
   // }
-  updateHand(cents);
-  updateCentsIndicator(cents);
+  if (lastNotes.some((n) => n !== note.name)) {
+    // makes sure note is stable before updating
+    lastNotes.push(note.name);
+    lastNotes.shift();
+    return;
+  }
+
+  updateHand(note.cents);
+  updateCentsIndicator(note.cents);
 
   if (resetTimeout) {
     clearTimeout(resetTimeout);
@@ -52,12 +60,15 @@ function handleSlider(cents) {
     updateHand(null);
     updateCentsIndicator(null);
   }, timeToDetect);
-}
+};
 
-function start() {
-  tuner.init(() => {
-    document.querySelector(".allow-access").remove();
-    document.querySelector(".hand").classList.remove("hidden");
-  });
-  frequencyData = new Uint8Array(tuner.analyser.frequencyBinCount);
+function onClick() {
+  hand = document.querySelector(".hand");
+  if (hand.classList.contains("hidden")) {
+    tuner.init(() => {
+      document.querySelector(".allow-access").remove();
+      hand.classList.remove("hidden");
+    });
+    frequencyData = new Uint8Array(tuner.analyser.frequencyBinCount);
+  }
 }

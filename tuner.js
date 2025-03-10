@@ -1,7 +1,7 @@
 const Tuner = function (a4) {
   this.middleA = a4 || 440;
   this.semitone = 69;
-  this.bufferSize = 1024;
+  this.bufferSize = 4096;
   this.noteStrings = [
     "C",
     "C♯",
