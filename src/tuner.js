@@ -1,4 +1,4 @@
-const Tuner = function (a4) {
+export default function Tuner(a4) {
   this.middleA = a4 || 440;
   this.semitone = 69;
   this.bufferSize = 4096;
@@ -18,7 +18,7 @@ const Tuner = function (a4) {
   ];
 
   this.initGetUserMedia();
-};
+}
 
 Tuner.prototype.initGetUserMedia = function () {
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -74,7 +74,7 @@ Tuner.prototype.startRecord = function (callback) {
           // }
           // const rms = Math.sqrt(sum / buffer.length);
           // const confidence = Math.min(1, rms * 10); // Normalize confidence to 0-1
-          confidence = Math.abs(self.pitchDetector.getConfidence());
+          const confidence = Math.abs(self.pitchDetector.getConfidence());
 
           const note = self.getNote(frequency);
           self.onNoteDetected({

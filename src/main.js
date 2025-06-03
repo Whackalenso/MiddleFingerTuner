@@ -1,3 +1,5 @@
+import Tuner from "./tuner.js";
+
 const inTuneRange = 20;
 
 const tuner = new Tuner(440);
