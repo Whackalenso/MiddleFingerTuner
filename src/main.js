@@ -76,9 +76,9 @@ tuner.onNoteDetected = (note) => {
     clearTimeout(resetTimeout);
   }
   resetTimeout = setTimeout(() => {
-    updateHand(null);
-    updateCentsIndicator(null);
-    updateNoteIndicator(null);
+    // updateHand(null);
+    // updateCentsIndicator(null);
+    // updateNoteIndicator(null);
   }, timeToDetect);
 };
 
