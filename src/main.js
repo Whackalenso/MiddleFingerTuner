@@ -24,7 +24,19 @@ function updateHand(cents) {
 
   let rotation = (Math.max(0, frame - 1) / 59) * 90;
   rotation *= cents > 0 ? -1 : 1;
-  hand.style.transform = `rotate(${Math.floor(rotation)}deg)`;
+
+  let vertOffset = cents;
+  if (vertOffset > 0) {
+    vertOffset = 0;
+  }
+  if (vertOffset < -1 * inTuneRange) {
+    vertOffset = -1 * inTuneRange;
+  }
+  vertOffset *= 5;
+
+  hand.style.transform = `translateY(${vertOffset}px) rotate(${Math.floor(
+    rotation
+  )}deg)`;
 }
 
 function updateCentsIndicator(cents) {
@@ -56,7 +68,7 @@ function updateNoteIndicator(note) {
 }
 
 tuner.onNoteDetected = (note) => {
-  // function handleSlider(cents) {
+  // function handleSlider(note) {
   // console.log(confidence);
   // if (note.confidence < 0.4) {
   //   return;
@@ -94,3 +106,7 @@ function onClick() {
 }
 
 document.body.addEventListener("click", onClick);
+// document.querySelector(".test-slider").oninput = function () {
+//   handleSlider({ name: "A#", value: 1, cents: this.value, octave: 1 });
+//   console.log("asdf");
+// };
