@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-
+/* @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lexend:wght@100..900&display=swap');
 /* :root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,8 +15,7 @@ html, body {
     margin: 0;
     overflow: hidden;
     
-    font-family: "DM Sans";
-    font-weight: 500;
+    font-family: "Lexend";
 }
 
 .allow-access {
@@ -55,7 +54,7 @@ html, body {
     transform: translate(-50%, -50%); */
     
     font-size: min(15vw, 15vh);
-    font-weight: 500;
+    font-weight: 300;
 
     transition: translate .1s;
 }
@@ -78,6 +77,7 @@ html, body {
     gap: 10px;
 
     font-size: min(20vw, 20vh);
+    font-weight: 300;
 }
 
 .note-letter {
@@ -93,4 +93,6 @@ html, body {
 
     display: flex;
     flex-direction: column;
+    
+    font-weight: 300;
 }
